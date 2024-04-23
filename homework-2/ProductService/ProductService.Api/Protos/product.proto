@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+option csharp_namespace = "ProductService.Api";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package product;
+
+service ProductService {
+  rpc Add (AddProductRequest) returns (AddProductResponse) {
+    option (google.api.http) = {
+      post: "/v1/product/add"
+    };
+  };
+
+  rpc Remove(RemoveProductRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      delete: "/v1/product/remove"
+    };
+  };
+  
+  rpc Get(GetProductRequest) returns (ProductReply) {
+    option (google.api.http) = {
+      get: "/v1/product/get"
+    };
+  };
+  
+  rpc Update(UpdateProductRequest) returns (ProductReply) {
+    option (google.api.http) = {
+      put: "/v1/product/updatePrice"
+    };
+  };
+  
+  rpc List (FilteredListRequest) returns (ListProductResponse) {
+    option (google.api.http) = {
+      get: "/v1/product/list"
+    };
+  };
+}
+
+message AddProductRequest {
+  string name = 1;
+  double price = 2;
+  double weight = 3;
+  google.protobuf.Timestamp date_of_creation = 4;
+  ProductReplyType product_type = 5;
+  int64 warehouse_id = 6;
+}
+
+message UpdateProductRequest {
+  int64 id = 1;
+  double price = 2;
+}
+
+message RemoveProductRequest {
+  int64 id = 1;
+}
+
+message GetProductRequest {
+  int64 id = 1;
+}
+
+message FilteredListRequest {
+  optional google.protobuf.StringValue name = 1;
+  optional google.protobuf.Int64Value warehouse_id = 2;
+  optional ProductReplyType product_type = 3;
+  optional google.protobuf.Timestamp date_of_creation = 4;
+  
+  optional google.protobuf.Int32Value page_number = 5;
+  optional google.protobuf.Int32Value page_size = 6;
+}
+
+message AddProductResponse {
+  int64 id = 1;
+}
+
+message ListProductResponse {
+  repeated ProductReply products = 1;
+}
+
+message ProductReply {
+  int64 id = 1;
+  string name = 2;
+  double price = 3;
+  double weight = 4;
+  google.protobuf.Timestamp date_of_creation = 5;
+  ProductReplyType product_type = 6;
+  int64 warehouse_id = 7;
+}
+
+enum ProductReplyType {
+  GENERAL = 0;
+  HOUSEHOLD = 1;
+  CHEMICALS_APPLIANCES = 2;
+  PRODUCTS = 3;
+}

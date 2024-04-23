@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option csharp_namespace = "WorkshopApp.Proto.Client";
+package workshop_app.proto.client.task_comments;
+
+import "Protos/enums.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+service TaskCommentsService {
+  rpc V1GetTaskComment(V1GetTaskCommentRequest) returns(V1GetTaskCommentResponse);
+  rpc V1CreateTaskComment(V1CreateTaskCommentRequest) returns (V1CreateTaskCommentResponse);
+  rpc V1UpdateTaskComment(V1UpdateTaskCommentRequest) returns (google.protobuf.Empty);
+  rpc V1SetDeletedTaskComment(V1SetDeletedTaskCommentRequest) returns (google.protobuf.Empty);
+}
+
+message V1SetDeletedTaskCommentRequest {
+  int64 task_id = 1;
+}
+
+message V1GetTaskCommentRequest {
+  int64 task_id = 1;
+  bool include_deleted = 2;
+}
+
+message V1UpdateTaskCommentRequest {
+  int64 id = 1;
+
+  optional google.protobuf.Int64Value task_id = 2;
+  optional google.protobuf.Int64Value author_user_id = 3;
+  optional google.protobuf.StringValue message = 4;
+  optional google.protobuf.Timestamp at = 5;
+  optional google.protobuf.Timestamp modified_at = 6;
+  optional google.protobuf.Timestamp deleted_at = 7;
+}
+
+message V1CreateTaskCommentRequest {
+  int64 task_id = 1;
+  int64 author_user_id = 2;
+  string message = 3;
+  google.protobuf.Timestamp at = 4;
+  optional google.protobuf.Timestamp modified_at = 5;
+  optional google.protobuf.Timestamp deleted_at = 6;
+}
+
+message V1GetTaskCommentResponse {
+  repeated V1TaskComment task_comments = 1;
+}
+
+message V1CreateTaskCommentResponse {
+  int64 task_comment_id = 1;
+}
+
+message V1TaskComment {
+  int64 id = 1;
+  int64 task_id = 2;
+  int64 author_user_id = 3;
+  string message = 4;
+  google.protobuf.Timestamp at = 5;
+  google.protobuf.Timestamp modified_at = 6;
+  google.protobuf.Timestamp deleted_at = 7;
+}
