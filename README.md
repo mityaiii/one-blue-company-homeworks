@@ -11,3 +11,5 @@
 [Условие homework-5](https://github.com/mityaiii/one-blue-company-homeworks/blob/master/homework-5/README.md)
 
 [Условие homework-6](https://github.com/mityaiii/one-blue-company-homeworks/blob/master/homework-6/README.md)
+
+[Условие homework-7](https://github.com/mityaiii/one-blue-company-homeworks/blob/master/homework-6/README.md)
